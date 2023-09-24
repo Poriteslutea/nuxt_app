@@ -13,74 +13,52 @@
         name="OpenStreetMap"
       />
 
-      <LCircleMarker v-for="stat in station" :name="stat.location" :lat-lng=stat.coord :radius="15" :fill-opacity="0.6" v-on:click="circleClick" />
+      <LCircleMarker ref="circles"  v-for="(markers, location) in station" :name="location" :lat-lng=markers.coord :radius="15" :fill-opacity="0.6" :fill-color="markers.color" :color="markers.color" v-on:click="circleClick(location)" />
+      
     </LMap>
 
-    <h1 class="text-5xl text-center">{{ stat_name }}</h1>
+
+    <div class="container">
+      <select class="mx-auto mx-3" v-model="selectedLocation" @change="updateMarkerColor(selectedLocation)">
+        <option v-for="(markers, location) in station" :value="location">{{location}}</option>
+      </select>
+      <h1 class="text-5xl text-center">{{ selectedLocation }}</h1>
+    </div>
+
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
+import { ref, reactive } from 'vue'
+const circles = ref([])
 const zoom = ref(10)
-const stat_name = ref('')
-const stat_coord = ref('')
-const station = ref([
-{
-  location: 'Cubulco', 
-  coord: [15.1057891,-90.645919]
-}, 
-{
-  location: 'Granados', 
-  coord: [14.917233,-90.5280519]
-}, 
-{
-  location: 'Purulhá', 
-  coord: [15.237121,-90.2469779]
-}, 
-{
-  location: 'Rabinal' , 
-  coord: [15.0855182,-90.497818]
-}, 
-{
-  location: 'Salamá' , 
-  coord: [15.1026613,-90.3258347]
-}, 
-{
-  location: 'San Jerónimo', 
-  coord: [15.062499,-90.245862]
-}, 
-{
-  location: 'San Miguel Chica' , 
-  coord: [15.0954004,-90.3994991]
-}, 
-{
-  location: 'Santa Cruz El Chol', 
-  coord: [14.9612142,-90.4940415]
-}
-])
-
-var clicked
-
-function circleClick(e) {
-  console.log(e.sourceTarget.options.name)
-  station.value.forEach(st => {
-    if(st.coord[0] == e.target._latlng.lat && st.coord[1] == e.target._latlng.lng){
-      stat_name.value = st.location
-    }
-  })
-  if (clicked) {
-    clicked.setStyle({fillColor: '#3388ff', fillOpacity: 0.6, color:'#3388ff'});
-  }
-  e.target.setStyle({fillColor: 'red', fillOpacity: 0.6, color: 'red'});
-  clicked = e.target;
-}
-
-
-watch(stat_name, (sn) => {
-
+const station = reactive({
+  'Cubulco': {coord: [15.1057891,-90.645919], color: '#3388ff'},
+  'Granados': {coord: [14.917233,-90.5280519], color: '#3388ff'},
+  'Purulhá': {coord: [15.237121,-90.2469779], color: '#3388ff'},
+  'Rabinal': {coord: [15.0855182,-90.497818], color: '#3388ff'},
+  'Salamá': {coord: [15.1026613,-90.3258347], color: '#3388ff'},
+  'San Jerónimo': {coord: [15.062499,-90.245862], color: '#3388ff'},
+  'San Miguel Chica': {coord: [15.0954004,-90.3994991], color: '#3388ff'},
+  'Santa Cruz El Chol': {coord: [14.9612142,-90.4940415], color: '#3388ff'}
 })
+const selectedLocation = ref('')
+
+
+function updateMarkerColor(n) {
+  console.log('update marker!')
+  circles.value.forEach((el) => {
+    if(el.name === n){
+      station[n].color = 'red'
+    } else {
+      station[el.name].color = '#3388ff'
+  }})
+}
+
+function circleClick(n) {
+  selectedLocation.value = n
+  updateMarkerColor(n)
+}
 
 
 </script>
