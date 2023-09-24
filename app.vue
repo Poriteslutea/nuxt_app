@@ -33,7 +33,7 @@ import { ref, reactive } from 'vue'
 const circles = ref([])
 const zoom = ref(10)
 const station = reactive({
-  'Cubulco': {coord: [15.1057891,-90.645919], color: '#3388ff'},
+  'Cubulco': {coord: [15.1057891,-90.645919], color: 'red'},
   'Granados': {coord: [14.917233,-90.5280519], color: '#3388ff'},
   'Purulhá': {coord: [15.237121,-90.2469779], color: '#3388ff'},
   'Rabinal': {coord: [15.0855182,-90.497818], color: '#3388ff'},
@@ -42,7 +42,7 @@ const station = reactive({
   'San Miguel Chica': {coord: [15.0954004,-90.3994991], color: '#3388ff'},
   'Santa Cruz El Chol': {coord: [14.9612142,-90.4940415], color: '#3388ff'}
 })
-const selectedLocation = ref('')
+const selectedLocation = ref('Cubulco')
 
 
 function updateMarkerColor(n) {
