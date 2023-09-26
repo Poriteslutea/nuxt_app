@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
-    'nuxt3-leaflet'
+    'nuxt3-leaflet',
+    '@nuxtjs/tailwindcss'
   ]
 })
