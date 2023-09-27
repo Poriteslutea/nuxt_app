@@ -1,29 +1,32 @@
 <template>
-    <div style="height:50vh; width:100vw">
-      <LMap
-        ref="map"
-        :zoom="zoom"
-        :center="[15.0954004,-90.3994991]"
-      >
-        <LTileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
-          layer-type="base"
-          name="OpenStreetMap"
-        />
+  <div class="w-full h-[350px]">
+    <LMap
+      ref="map"
+      :zoom="zoom"
+      :center="[15.0954004,-90.3994991]"
   
-        <LCircleMarker ref="circles"  v-for="(markers, location) in station" :name="location" :lat-lng=markers.coord :radius="15" :fill-opacity="0.6" :fill-color="markers.color" :color="markers.color" v-on:click="circleClick(location)" />
-        
-      </LMap>
-  
-  
-      <div class="container w-1/2">
-        <select class="mx-auto mx-3" v-model="selectedLocation" @change="updateMarkerColor(selectedLocation)">
-          <option v-for="(markers, location) in station" :value="location">{{location}}</option>
-        </select>
-      </div>
-  
+    >
+      <LTileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
+        layer-type="base"
+        name="OpenStreetMap"
+      />
+
+      <LCircleMarker ref="circles"  v-for="(markers, location) in station" :name="location" :lat-lng=markers.coord :radius="15" :fill-opacity="0.6" :fill-color="markers.color" :color="markers.color" v-on:click="circleClick(location)" />
+      
+    </LMap>
+
+  </div>
+    
+
+    <div class="container w-full my-3 flex items-center justify-center">
+      <select class="w-full mx-4 p-3 rounded-xl" v-model="selectedLocation" @change="updateMarkerColor(selectedLocation)">
+        <option v-for="(markers, location) in station" :value="location">{{location}}</option>
+      </select>
     </div>
+  
+   
   </template>
   
   <script setup>
